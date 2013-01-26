@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://raw.github.com/astagi/magpi-bb10/master/pub/TheMagPi.png" alt="MagPi client for Android."/>
-</p>
-
 MagPi for BlackBerry
 --------------------
 
