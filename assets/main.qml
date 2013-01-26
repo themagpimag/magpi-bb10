@@ -1,16 +1,27 @@
-// Default empty project template
 import bb.cascades 1.0
-
-// creates one page with a label
-Page {
-    Container {
-        layout: DockLayout {}
-        Label {
-            text: qsTr("Hello World, MagPi!")
-            textStyle.base: SystemDefaults.TextStyles.BigText
-            verticalAlignment: VerticalAlignment.Center
-            horizontalAlignment: HorizontalAlignment.Center
+   
+TabbedPane {
+    id: tabbedPane
+    showTabsOnActionBar: true
+      
+    Tab {
+        title: "Issues"
+          
+        content: Page {
+            content: Label {
+                text: "This is tab with issues."
+            }
         }
     }
-}
+       
+    Tab {
+        title: "News"
+          
+        content: Page {
+            content: Label {
+                text: "This is tab with news."
+            }
+        }
+    }
+} 
 
