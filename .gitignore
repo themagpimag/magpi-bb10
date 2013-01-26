@@ -2,6 +2,7 @@
 arm
 .cproject
 .project
+.preview*
 bar-descriptor.xml
 config.pri
 MagPi.pro
