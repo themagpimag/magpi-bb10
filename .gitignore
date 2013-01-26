@@ -1,0 +1,9 @@
+.settings
+arm
+.cproject
+.project
+bar-descriptor.xml
+config.pri
+MagPi.pro
+precompiled.h
+Thumbs.db
