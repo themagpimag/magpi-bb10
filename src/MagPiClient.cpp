@@ -7,10 +7,10 @@
 
 #include "MagPiClient.h"
 #include <stdio.h>
+#include <QXmlStreamReader>
 
 MagPiClient::MagPiClient() {
 	m_manager = new QNetworkAccessManager(this);
-
 }
 
 MagPiClient::~MagPiClient() {
@@ -18,34 +18,67 @@ MagPiClient::~MagPiClient() {
 }
 
 void MagPiClient::fetchIssues() {
-	connect(m_manager, SIGNAL(finished(QNetworkReply*)),
-		 this, SLOT(issuesFetched(QNetworkReply*)));
+	connect(m_manager, SIGNAL(finished(QNetworkReply*)), this,
+			SLOT(issuesPageContentFetched(QNetworkReply*)));
 	m_manager->get(QNetworkRequest(QUrl("http://feeds.feedburner.com/theMagPi")));
 }
 
 void MagPiClient::fetchNews() {
-	connect(m_manager, SIGNAL(finished(QNetworkReply*)),
-		 this, SLOT(issuesFetched(QNetworkReply*)));
+	connect(m_manager, SIGNAL(finished(QNetworkReply*)), this,
+			SLOT(newsPageContentFetched(QNetworkReply*)));
 	m_manager->get(QNetworkRequest(QUrl("http://feeds.feedburner.com/MagPi")));
 }
 
-void MagPiClient::issuesFetched(QNetworkReply* pReply) {
+void MagPiClient::issuesPageContentFetched(QNetworkReply* pReply) {
 
-    QByteArray data = pReply->readAll();
-    QString str(data);
+	QByteArray data = pReply->readAll();
+	QString str(data);
 
-    fprintf(stdout, str.toStdString().c_str());
+	QXmlStreamReader xml(str);
 
-    //parse
+	QList<Issue>* issues = new QList<Issue>();
+
+	Issue* issue = 0;
+
+	while (!xml.atEnd()) {
+		xml.readNext();
+		if (xml.isStartElement()) {
+			if (xml.name() == "item") {
+				if (issue)
+					issues->append(*issue);
+				issue = new Issue();
+			}
+			if (!issue)
+				continue;
+			if (xml.name() == "link") {
+				xml.readNext();
+				issue->pdfUrl = xml.text().toString();
+			}
+			if (xml.name() == "title") {
+				xml.readNext();
+				issue->title = xml.text().toString();
+			}
+		} else if (xml.isEndElement()) {
+		}
+	}
+
+	for (int i = 0; i < issues->size(); i++) {
+		fprintf(stdout, "\n");
+		fprintf(stdout, issues->at(i).title.toStdString().c_str());
+	}
+
+	emit issuesFetched(issues);
 
 }
 
-void MagPiClient::newsFetched(QNetworkReply* pReply) {
+void MagPiClient::newsPageContentFetched(QNetworkReply* pReply) {
 
-    QByteArray data = pReply->readAll();
-    QString str(data);
+	QByteArray data = pReply->readAll();
+	QString str(data);
 
-    fprintf(stdout, str.toStdString().c_str());
+	//parse
+
+	//emit newsFetched(newsList);
 
 }
 

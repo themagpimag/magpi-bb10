@@ -8,6 +8,9 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QString>
+#include "Issue.h"
+#include <QList>
 
 #ifndef MAGPICLIENT_H_
 #define MAGPICLIENT_H_
@@ -19,9 +22,12 @@ public:
 	void fetchIssues();
 	void fetchNews();
 	virtual ~MagPiClient();
-public slots:
-	void issuesFetched(QNetworkReply* pReply);
-	void newsFetched(QNetworkReply* pReply);
+signals:
+	void issuesFetched(QList<Issue>* issues);
+	void newsFetched(QList<Issue>* issues);
+private slots:
+	void issuesPageContentFetched(QNetworkReply* pReply);
+	void newsPageContentFetched(QNetworkReply* pReply);
 
 private:
 	QNetworkAccessManager* m_manager;

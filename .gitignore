@@ -18,4 +18,5 @@ x86/
 src/.DS_Store
 src/.DS_Store
 
+.preview*
 Thumbs.db

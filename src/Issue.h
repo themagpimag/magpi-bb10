@@ -14,7 +14,6 @@ class Issue {
 public:
 	Issue();
 	virtual ~Issue();
-private:
 	QString date;
 	QString title;
 	QString pdfUrl;
