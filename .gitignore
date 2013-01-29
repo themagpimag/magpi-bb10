@@ -1,10 +1,21 @@
-.settings
-arm
-.cproject
-.project
-.preview*
-bar-descriptor.xml
-config.pri
-MagPi.pro
-precompiled.h
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# device files
+arm/
+x86/
+
+src/.DS_Store
+src/.DS_Store
+
 Thumbs.db
