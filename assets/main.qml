@@ -9,8 +9,9 @@ TabbedPane {
         title: "Issues"
           
         content: Page {
-            content: Label {
-                text: "This is tab with issues."
+            content: ListView {
+                objectName: "issuesListView"
+                
             }
         }
     }
@@ -20,7 +21,7 @@ TabbedPane {
           
         Page {
             content: ListView {
-                id: myListView
+                id: newsListView
                 dataModel: dataModel
               
                 listItemComponents: [
@@ -54,7 +55,7 @@ TabbedPane {
                 
                     onDataLoaded: {
                         dataModel.clear();
-                        dataModel.insertList(data)
+                        dataModel.insertList(data);
                     }
                 }
             ]
@@ -63,6 +64,10 @@ TabbedPane {
                 dataSource.load();
             }
         }
+    }
+    
+    onCreationCompleted: {
+        onStart();
     }
 } 
 

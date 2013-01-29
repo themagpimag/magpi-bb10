@@ -31,14 +31,13 @@ void MagPiClient::fetchNews() {
 
 void MagPiClient::issuesPageContentFetched(QNetworkReply* pReply) {
 
+	QList<Issue>* issues = new QList<Issue>();
+	Issue* issue = 0;
+
 	QByteArray data = pReply->readAll();
 	QString str(data);
 
 	QXmlStreamReader xml(str);
-
-	QList<Issue>* issues = new QList<Issue>();
-
-	Issue* issue = 0;
 
 	while (!xml.atEnd()) {
 		xml.readNext();
@@ -62,10 +61,8 @@ void MagPiClient::issuesPageContentFetched(QNetworkReply* pReply) {
 		}
 	}
 
-	for (int i = 0; i < issues->size(); i++) {
-		fprintf(stdout, "\n");
-		fprintf(stdout, issues->at(i).title.toStdString().c_str());
-	}
+	if (issue)
+		issues->append(*issue);
 
 	emit issuesFetched(issues);
 
