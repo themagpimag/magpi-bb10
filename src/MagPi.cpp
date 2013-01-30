@@ -19,10 +19,10 @@ MagPi::MagPi(bb::cascades::Application *app) :
 	root = qml->createRootObject<AbstractPane>();
 	app->setScene(root);
 
-	magpi_client = new MagPiClient();
+	/*magpi_client = new MagPiClient();
 	connect(magpi_client, SIGNAL(issuesFetched(QList<Issue>*)), this,
 			SLOT(onIssuesFetched(QList<Issue>*)));
-	magpi_client->fetchIssues();
+	magpi_client->fetchIssues();*/
 
 }
 
