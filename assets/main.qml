@@ -7,7 +7,7 @@ TabbedPane {
       
     Tab {
         title: "Issues"
-          
+        imageSource : "tab_icons/issues_tab.png"
         content: Page {
             content: ListView {
                 objectName: "issuesListView"
@@ -18,7 +18,7 @@ TabbedPane {
        
     Tab {
         title: "News"
-          
+        imageSource : "tab_icons/news_tab.png"  
         Page {
             content: ListView {
                 id: newsListView
