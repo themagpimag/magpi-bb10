@@ -6,6 +6,7 @@
 #include <QTranslator>
 #include <Qt/qdeclarativedebug.h>
 #include "MagPi.hpp"
+#include "RemoteImageView.h"
 
 using namespace bb::cascades;
 
@@ -19,6 +20,8 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     if (translator.load(filename, "app/native/qm")) {
         app.installTranslator( &translator );
     }
+
+    qmlRegisterType<RemoteImageView>("my.library", 1, 0, "RemoteImageView");
 
     new MagPi(&app);
 

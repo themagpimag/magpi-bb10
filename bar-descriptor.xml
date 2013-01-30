@@ -97,7 +97,7 @@
     <asset path="translations" dest="qm">
         <include name="*.qm"/>
     </asset>
-    <asset path="assets/splashscreen.png">splashscreen.png</asset>
+    <asset path="assets/images/splashscreen.png">splashscreen.png</asset>
     
     <!-- Request permission to execute native code.  Required for native applications. -->
     <permission system="true">run_native</permission>
