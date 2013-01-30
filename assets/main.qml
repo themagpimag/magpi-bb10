@@ -27,6 +27,24 @@ TabbedPane {
                             StandardListItem {
                                 title: ListItemData.title.split(" - ")[0]
                                 description: ListItemData.title.split(" - ")[1]
+                                
+                                contextActions: [
+                                    ActionSet {
+                                        title: ListItemData.title
+                                        ActionItem {
+                                            title: "More"
+                                            imageSource: "ctx_menu/more.png"
+                                        }
+                                        ActionItem {
+                                            title: "View"
+                                            imageSource: "ctx_menu/view.png"
+                                        }
+                                        ActionItem {
+                                            title: "Share"
+                                            imageSource: "ctx_menu/share.png"
+                                        }
+                                    }
+                                ]
                             }
                         }
                     ]
@@ -91,6 +109,16 @@ TabbedPane {
 	                                verticalAlignment: VerticalAlignment.Bottom
 	                                horizontalAlignment: HorizontalAlignment.Center
 	                            }
+	                            
+                                contextActions: [
+                                    ActionSet {
+                                        title: ListItemData.pubDate.substring(5, 17)
+                                        ActionItem {
+                                            title: "Share"
+                                            imageSource: "ctx_menu/share.png"
+                                        }
+                                    }
+                                ]
 	                        }
 	                    }
 	                ]
