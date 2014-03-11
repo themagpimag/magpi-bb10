@@ -1,4 +1,4 @@
-QMAKE_TARGET  = MagPi
+QMAKE_TARGET  = themagpi_bb10
 LUPDATE       = $(QNX_HOST)/usr/bin/lupdate
 LRELEASE      = $(QNX_HOST)/usr/bin/lrelease
 
