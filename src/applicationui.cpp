@@ -21,27 +21,9 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/LocaleHandler>
 
-#include <bb/data/JsonDataAccess>
-#include <bb/cascades/GroupDataModel>
-#include <bb/cascades/ListView>
-
-#include <QtNetwork/QNetworkRequest>
-
-#include <bb/cascades/Image>
-#include <bb/cascades/ImageView>
-
 #include <bb/system/InvokeManager>
 
-#include <bb/cascades/ProgressIndicator>
-#include <bb/system/SystemProgressToast>
-#include <bb/system/SystemProgressDialog>
-#include <bb/system/SystemToast>
-#include <bb/system/SystemUiResult>
-
-#include <bb/cascades/Label>
-
 using namespace bb::cascades;
-using namespace bb::data;
 using namespace bb::system;
 
 AbstractPane *root;
@@ -85,68 +67,6 @@ void ApplicationUI::onSystemLanguageChanged()
 		QCoreApplication::instance()->installTranslator(m_pTranslator);
 	}
 }
-/*
-void ApplicationUI::fetchImg(QString url, ImageView *iv)
-{
-	m_ImageView = iv;
-	QNetworkAccessManager *nam = new QNetworkAccessManager();
-
-	QNetworkRequest req(url);
-
-	QNetworkReply* rep = nam->get(req);
-
-	bool ok = connect(rep, SIGNAL(finished()), this, SLOT(onFinished()));//loadData()));
-	Q_ASSERT(ok);
-	Q_UNUSED(ok);
-}*/
-
-void ApplicationUI::onFinished(QNetworkReply *r)
-{
-	//QNetworkReply *r = dynamic_cast<QNetworkReply*>(sender());
-
-	QVariant possibleURLRedirect = r->attribute(QNetworkRequest::RedirectionTargetAttribute);
-
-	if ( !possibleURLRedirect.toUrl().isEmpty() )
-	{
-		//got a redirect
-		qDebug() << "redirect to " << possibleURLRedirect.toUrl();
-		this->m_rep = this->m_nam->get(QNetworkRequest(possibleURLRedirect.toUrl()));
-		connect(this->m_rep, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgress(qint64, qint64)));
-	}
-	else
-	{
-		qDebug() << " ba = " << r->readAll();
-		SystemToast *eod_toast = new SystemToast(this);
-		SystemUiButton *toastButton = eod_toast->button();
-
-		eod_toast->setBody("Download finished!");
-		toastButton->setLabel("View PDF");
-		eod_toast->show();
-		connect(eod_toast, SIGNAL(finished(bb::system::SystemUiResult::Type)), this, SLOT(dwlFinished(bb::system::SystemUiResult::Type)));
-	}
-	r->deleteLater();
-	/*
-	Image img(r->readAll());// = new Image(r->readAll());
-
-	m_ImageView->setImage(img);
-	*/
-}
-
-void ApplicationUI::dwlFinished(bb::system::SystemUiResult::Type t)
-{
-	qDebug() << "t = " << t;
-	if ( t == 5 )
-	{
-		qDebug() << "view downloaded pdf";
-	} else {
-		qDebug() << "natural expired";
-	}
-}
-
-void ApplicationUI::replyFinished(QNetworkReply *r)
-{
-	qDebug() << " rf = " << r->readAll();
-}
 
 void ApplicationUI::downloadPDF(QString p)
 {
@@ -157,122 +77,7 @@ void ApplicationUI::downloadPDF(QString p)
 	//cardRequest.setMimeType("image/png");
 	cardRequest.setUri(p);
 	InvokeTargetReply* reply = invokeManager->invoke(cardRequest);
-	invokeManager->setParent(this);
-	//reply->setParent(this);
-
-	/*
-	progresstoast = new SystemProgressToast(this);
-
-	progresstoast->setBody("Downloading PDF");
-	    progresstoast->setProgress(1);
-	    progresstoast->setStatusMessage("");
-	    progresstoast->setState(SystemUiProgressState::Active);
-	    progresstoast->setPosition(SystemUiPosition::MiddleCenter);
-	    progresstoast->show();
-
-	QUrl u(p);
-	QNetworkRequest req;//(u);
-	req.setUrl(u);
-	QNetworkAccessManager *nam = new QNetworkAccessManager(this);
-
-	connect(nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
-
-
-	/*
-	connect(nam, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgress(qint64, qint64)));
-	connect(nam, SIGNAL(finished()), this, SLOT(onFinished()));
-*/
-	/*
-	this->m_nam = nam;
-	//this->m_req = req;
-
-
-	//QNetworkReply *rep
-	this->m_rep = this->m_nam->get(req);
-	connect(this->m_rep, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgress(qint64, qint64)));
-
-	//this->m_rep = rep;
-	/*this->m_nam->get(req);//this->m_req);
-	connect(this->m_rep, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgress(qint64, qint64)));
-*/
-
-
-	/*
-
-	        // ... and start the download.
-	        m_currentDownload = m_manager.get(request);
-
-	        // Connect against the necessary signals to get informed about progress and status changes
-	        connect(m_currentDownload, SIGNAL(downloadProgress(qint64, qint64)),
-	                SLOT(downloadProgress(qint64, qint64)));
-	        connect(m_currentDownload, SIGNAL(finished()), SLOT(downloadFinished()));
-	        connect(m_currentDownload, SIGNAL(readyRead()), SLOT(downloadReadyRead()));
-	        */
-
-}
-
-void ApplicationUI::setPID(bb::cascades::ProgressIndicator *pid)
-{
-
-	m_pid = pid;
-	m_pid->setFromValue(0);
-
-}
-
-void ApplicationUI::downloadProgress(qint64 br, qint64 bt)
-{
-	pt = bt;
-	pv = br;
-	qDebug() << "loaded at " << QString::number(pt) << " and = " << QString::number(pv);
-
-	float percentage = (100 * pv ) / pt;
-	qDebug() << "percentage = " << QString::number(percentage);
-
-	/*
-	 * label = zonesInstance->findChild<bb::cascades::Label*>("sLb");
-QString labelText = "Test Change";
-
-qDebug() << label->text();
-label->setText(labelText);
-	 */
-
-	m_prolbl->setText(QString::number(percentage) + " %");
-
-	/*
-	bb::cascades::Label *lbl = root->findChild<bb::cascades::Label*>("dwlProgress");
-	if ( lbl )
-		lbl->setText(QString::number(percentage) + " %");
-	else qDebug() << "label not valid";
-*/
-	/*
-	QObject *dlabel = root->findChild<QObject*>("dwlProgress");
-	if (dlabel)
-		dlabel->setProperty("text", QString::number(percentage) + " %");
-*/
-//	root->findChild("dwlProgress");
-/*
-	progresstoast->setProgress(percentage);
-
-	m_pid->setToValue(pt/1000);
-	m_pid->setValue(pv/1000);
-	*/
-
-}
-
-void ApplicationUI::setProgressLabel(bb::cascades::Label *aLabel)
-{
-	m_prolbl = aLabel;
-}
-/*
-void ApplicationUI::viewPDF(QString r)
-{
-	InvokeManager* invokeManager = new InvokeManager();
-	InvokeRequest cardRequest;
-	cardRequest.setTarget("com.rim.bb.app.adobeReader.viewer");
-	cardRequest.setAction("bb.action.VIEW");
-	cardRequest.setMimeType("application/pdf");
-	cardRequest.setUri(r);
-	InvokeTargetReply* reply = invokeManager->invoke(cardRequest);
+	Q_UNUSED(reply);
 	invokeManager->setParent(this);
 }
-*/
+

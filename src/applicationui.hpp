@@ -17,9 +17,6 @@
 #ifndef ApplicationUI_HPP_
 #define ApplicationUI_HPP_
 
-#include <QObject>
-#include <QtNetwork/QNetworkAccessManager>
-#include <bb/system/SystemUiResult>
 
 
 namespace bb
@@ -28,13 +25,6 @@ namespace bb
     {
         class Application;
         class LocaleHandler;
-        class ImageView;
-        class ProgressIndicator;
-        class Label;
-    }
-    namespace system
-    {
-    	class SystemProgressToast;
     }
 }
 
@@ -53,30 +43,15 @@ public:
     ApplicationUI(bb::cascades::Application *app);
     virtual ~ApplicationUI() { }
 
-   // Q_INVOKABLE void fetchImg(QString, bb::cascades::ImageView*);
-    //Q_INVOKABLE void viewPDF(QString);
     Q_INVOKABLE void downloadPDF(QString);
-    Q_INVOKABLE void setPID(bb::cascades::ProgressIndicator*);
-    Q_INVOKABLE void setProgressLabel(bb::cascades::Label*);
+
 
 private slots:
     void onSystemLanguageChanged();
-    void onFinished(QNetworkReply*);
-    void downloadProgress(qint64, qint64);
-    void replyFinished(QNetworkReply*);
-    void dwlFinished(bb::system::SystemUiResult::Type);
 
 private:
     QTranslator* m_pTranslator;
     bb::cascades::LocaleHandler* m_pLocaleHandler;
-    bb::cascades::ImageView *m_ImageView;
-    bb::cascades::ProgressIndicator *m_pid;
-    QNetworkAccessManager *m_nam;
-    QNetworkReply *m_rep;
-    bb::system::SystemProgressToast *progresstoast;
-    bb::cascades::Label *m_prolbl;
-    qint64 pt;
-    qint64 pv;
 };
 
 #endif /* ApplicationUI_HPP_ */
