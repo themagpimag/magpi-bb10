@@ -52,7 +52,8 @@
     <!-- <copyright></copyright> -->
 
     <!--  Name of author which is used for signing. Must match the developer name of your development certificate. -->
-    <author>Example Inc.</author>
+    <author>Daniele (b0unc3) Maio</author>
+    <authorId>gYAAgDAaTvBF9P4azRf3ADcRpn4</authorId>
     <splashScreens>
        <image>splashscreen_720x720.png</image>
        <image>splashscreen_720x1280.png</image>
