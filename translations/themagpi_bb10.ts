@@ -13,6 +13,32 @@
     </message>
 </context>
 <context>
+    <name>Issues</name>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rate Me!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Issue </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>News</name>
+    <message>
+        <source>Rate Me!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <source>Issues</source>
