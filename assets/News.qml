@@ -1,19 +1,37 @@
 import bb.cascades 1.2
 import bb.data 1.0
+import bb.system 1.2
 
 NavigationPane {
     id: newsNavPane
     
-    attachedObjects: [
-        ComponentDefinition {
-            id: newPage
-            source: "New.qml"
-        }
-    ]
     Page {
         titleBar: Titlebar { 
             id: newsTB
         }
+        
+        actions: [
+            InvokeActionItem {
+                title: qsTr("Rate Me!");
+                ActionBar.placement: ActionBarPlacement.InOverflow
+                imageSource: "asset:///images/rate.png"
+                query {
+                    invokeTargetId: "sys.appworld"
+                    invokeActionId: "bb.action.OPEN"
+                    uri: "appworld://"
+                }
+            },
+            ActionItem {
+                title: qsTr("Info");
+                ActionBar.placement: ActionBarPlacement.InOverflow
+                imageSource: "asset:///images/info.png"
+                onTriggered: {
+                    infoToast.show();
+                }
+            }
+        
+        ]
+        
         Container {
             layout: DockLayout {
                 
@@ -77,7 +95,7 @@ NavigationPane {
         attachedObjects: [
             GroupDataModel {
                 id: mpDataModel;
-                sortingKeys: ["date"];
+                sortingKeys: ["id"];
                 sortedAscending: false;
                 grouping: ItemGrouping.None
             },
@@ -95,6 +113,7 @@ NavigationPane {
         onCreationCompleted: {
             dataSource.load();
             newsTB.current_ds = dataSource;
+            newsTB.visible = true;
         }
     
     }

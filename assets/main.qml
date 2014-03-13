@@ -15,10 +15,27 @@
  */
 
 import bb.cascades 1.2
+import bb.system 1.2
 
 TabbedPane {
     showTabsOnActionBar: true
     
+    attachedObjects: [
+        ComponentDefinition {
+            id: issuePage
+            source: "Issue.qml"
+        },
+        ComponentDefinition {
+            id: newPage
+            source: "New.qml"
+        },
+        SystemToast {
+            id: infoToast
+            body: "Developer\nDaniele (b0unc3) Maio\ndaniele.maio@gmail.com\n\nData\nThe MagPI Magazine\nwww.themagpi.com\n\nLicense\nThis software is released under MIT License. Copyright (c) 2014"
+            button.label: "Ok"
+            button.enabled: true
+        }
+    ]
     
     Tab {
         title: qsTr("Issues");

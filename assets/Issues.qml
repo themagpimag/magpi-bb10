@@ -4,17 +4,32 @@ import bb.data 1.0
 NavigationPane {
     id: issueNavPane
     
-    attachedObjects: [
-        ComponentDefinition {
-            id: issuePage
-            source: "Issue.qml"
-        }
-    ]
-    
     Page {
         titleBar: Titlebar {
             id: issuesTB
         }
+        
+        actions: [
+            InvokeActionItem {
+                title: qsTr("Rate Me!")
+                ActionBar.placement: ActionBarPlacement.InOverflow
+                imageSource: "asset:///images/rate.png"
+                query {
+                    invokeTargetId: "sys.appworld"
+                    invokeActionId: "bb.action.OPEN"
+                    uri: "appworld://"
+                }
+            },
+            ActionItem {
+                            title: qsTr("Info");
+                            ActionBar.placement: ActionBarPlacement.InOverflow
+                            imageSource: "asset:///images/info.png"
+                            onTriggered: {
+                                infoToast.show();
+                            }
+            }
+            
+        ]
         
         Container {
             layout: DockLayout {
@@ -31,14 +46,14 @@ NavigationPane {
             ListView {
                 id: listView;
                 
-                dataModel: mpDataModel
+               // dataModel: mpDataModel
                 
                 listItemComponents: [
                     ListItemComponent {
                         type: "header";
                         
                         Header {
-                            title: "Issue " + ListItemData
+                            title: qsTr("Issue ") + ListItemData
                         }
                     },
                     ListItemComponent {
@@ -109,6 +124,7 @@ NavigationPane {
                 onDataLoaded: {
                     console.log("data = " + data.issues[1].date);
                     mpDataModel.insertList(data.issues);//["data"]);
+                    listView.setDataModel(mpDataModel);
                     mpIndicator.stop();
                 }
             }
@@ -117,6 +133,7 @@ NavigationPane {
         onCreationCompleted: {
             dataSource.load();
             issuesTB.current_ds = dataSource;
+            issuesTB.visible = true;
         }
     }
 }

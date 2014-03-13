@@ -8,13 +8,14 @@ Page {
     property string issue_pdf_url;
     
     titleBar: Titlebar {
-        id: theTB
+        id: issueTB
     
     }
     
     onIssue_idChanged: {
         issue_url = "http://magpi-api.appspot.com/issues/"+issue_id;
         ds.load();
+        issueTB.visible = false;
     }
     
     actions: [
@@ -38,7 +39,7 @@ Page {
                 invokeActionId: "bb.action.SHARE"
             }
             onTriggered: {
-                data = "I just read issue " + issue_id + " of @TheMagPI using their @BlackBerry app. Read it here today - " + issue_pdf_url;
+                data = qsTr("I just read issue " + issue_id + " of @TheMagPI using their @BlackBerry app. Read it here today - " + issue_pdf_url);
             }
             
         }
@@ -71,12 +72,17 @@ Page {
             leftPadding: 10
             bottomPadding: 10
             
+            Divider {
+                preferredHeight: 25
+            }
+            
             ScrollView {
                 id: scrollView
                 
                 scrollViewProperties {
                     scrollMode: ScrollMode.Vertical
                     pinchToZoomEnabled: true
+                    minContentScale: 1
                 }
                 
                 Container {
@@ -105,8 +111,8 @@ Page {
             source: issue_url;
             
             onDataLoaded: {
-                theContent.text = data.content
-                theTitle.text = "Issue " + issue_id + " - " + data.date;
+                theContent.text = qsTr(data.content)
+                theTitle.text = qsTr("Issue " + issue_id + " - " + data.date);
                 wvImg.url = data.image_url;
                 issue_pdf_url = data.pdf_url;
             }

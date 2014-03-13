@@ -3,6 +3,7 @@ import bb.cascades 1.2
 
 TitleBar {
     property variant current_ds;
+    property alias visible: refrImg.visible
     kind: TitleBarKind.FreeForm
     kindProperties: FreeFormTitleBarKindProperties {
         Container {
@@ -31,6 +32,7 @@ TitleBar {
                 }
             }
             ImageButton {
+                id: refrImg
                 defaultImageSource: "asset:///images/refresh.png";
                 verticalAlignment: VerticalAlignment.Center
                 horizontalAlignment: HorizontalAlignment.Right

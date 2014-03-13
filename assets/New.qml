@@ -6,7 +6,7 @@ Page {
     property alias adate: theDate.text
     
     titleBar: Titlebar {
-        
+        id: newTB
     }
     
     Container {
@@ -33,6 +33,7 @@ Page {
             scrollViewProperties {
                 scrollMode: ScrollMode.Vertical
                 pinchToZoomEnabled: true
+                minContentScale: 1
             }
             
             Label {
@@ -42,7 +43,9 @@ Page {
                 textFormat: TextFormat.Html
             }
             
-        }
-        
+        }   
+    }
+    onCreationCompleted: {
+        newTB.visible = false;
     }
 }
